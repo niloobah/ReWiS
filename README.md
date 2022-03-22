@@ -6,4 +6,4 @@ This repo contains three files,
 
 
 
-Dataset can be found at https://drive.google.com/drive/folders/1H-0GFOIHmHpHfdV-T5qv_diov_dCQxMS?usp=sharing
+Collected CSI dataset can be found at https://drive.google.com/drive/folders/1H-0GFOIHmHpHfdV-T5qv_diov_dCQxMS?usp=sharing
