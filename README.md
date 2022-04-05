@@ -7,3 +7,4 @@ This repo contains three files,
 
 
 Collected CSI dataset can be found at https://drive.google.com/drive/folders/1H-0GFOIHmHpHfdV-T5qv_diov_dCQxMS?usp=sharing
+This folder contains raw `.pcap` collected CSI data, and also cleaned, formatted and pre-processed data frames.
