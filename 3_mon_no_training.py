@@ -1,6 +1,7 @@
 """
-3 monitors, without embedding training. The embedding network is found based on trial and error
+CSI d
 """
+
 import numpy as np
 from scipy.io import loadmat
 import multiprocessing as mp
@@ -52,7 +53,7 @@ def read_csi(base_directory):
             datay = np.concatenate([datay, result[1]])
     return datax, datay
 
-data_folder = 'extractd_3x4/m3c1_PCA_80_300_extracted_3x4'
+data_folder = 'm3c1_PCA_80_solved'
 train_folder_name = 'few_shot_datasets/' + data_folder + '/train_A1'
 
 out_name = 'models/output_' + data_folder + '.pt'
@@ -70,7 +71,7 @@ trainx_3 = np.expand_dims(trainx_3, axis=1)
 model_out_name = 'models/model_' + data_folder + '.pt'
 #%%
 """ Extracting test samples from 3 monitors"""
-test_folder_name = 'few_shot_datasets/' + data_folder + '/test_A2'
+test_folder_name = 'few_shot_datasets/' + data_folder + '/test_A3'
 testx_1, testy_1 = read_csi(test_folder_name+'/m1')
 testx_1 = np.expand_dims(testx_1, axis=1)
 
@@ -458,7 +459,7 @@ n_way = 4
 n_support = 5
 n_query = 3
 
-test_episode = 1000
+test_episode = 100
 
 CF, acc = test(model1, model2, model3, testx_1, testy_1, testx_2, testy_2, testx_3, testy_3, n_way, n_support, n_query, test_episode)
 #%%
