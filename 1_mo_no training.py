@@ -1,6 +1,7 @@
-'''
-1 monitor without embedding training. The embedding network is found based on trial and error.
-'''
+"""
+This script does not require training the embeddigns. Is written for the case of one monitor m1c1_xx m1c4_xxx datasets can be used for this code.
+"""
+
 import numpy as np
 from scipy.io import loadmat
 import multiprocessing as mp
@@ -53,7 +54,7 @@ def read_csi(base_directory):
             datay = np.concatenate([datay, result[1]])
     return datax, datay
 
-data_folder = 'extractd_3x4_20/m1c4_PCA_80_300_extracted_3x4'
+data_folder = 'm1c4_PCA_test_80'
 train_env = 'A1'
 train_folder_name = 'few_shot_datasets/' + data_folder + '/train_A1'
 
@@ -73,11 +74,11 @@ def extract_sample(n_way, n_support, n_query, datax, datay, test = False):
       n_way (int): number of classes in a classification task
       n_support (int): number of labeled examples per class in the support set
       n_query (int): number of labeled examples per class in the query set
-      datax (np.array): dataset of CSI data
+      datax (np.array): dataset of CSI images
       datay (np.array): dataset of labels
   Returns:
       (dict) of:
-        (torch.Tensor): sample of CSI. Size (n_way, n_support+n_query, (dim))
+        (torch.Tensor): sample of CSI images. Size (n_way, n_support+n_query, (dim))
         (int): n_way
         (int): n_support
         (int): n_query
@@ -117,9 +118,9 @@ def load_protonet_conv(**kwargs):
   """
   Loads the prototypical network model
   Arg:
-      x_dim (tuple): dimension of input image
+      x_dim (tuple): dimension of input CSI
       hid_dim (int): dimension of hidden layers in conv blocks
-      z_dim (int): dimension of embedded image
+      z_dim (int): dimension of embedded CSI
   Returns:
       Model (Class ProtoNet)
   """
@@ -234,7 +235,7 @@ def train(model, optimizer, train_x, train_y, n_way, n_support, n_query, max_epo
   Args:
       model
       optimizer
-      train_x (np.array): images of training set
+      train_x (np.array): CSI images of training set
       train_y(np.array): labels of training set
       n_way (int): number of classes in a classification task
       n_support (int): number of labeled examples per class in the support set
@@ -276,7 +277,7 @@ model = load_protonet_conv(
 optimizer = optim.Adam(model.parameters(), lr = 0.001)
 
 n_way = 4
-n_support = 3
+n_support = 5
 n_query = 3
 
 train_x = trainx
@@ -295,7 +296,7 @@ def test(model, test_x, test_y, n_way, n_support, n_query, test_episode):
   Tests the protonet
   Args:
       model: trained model
-      test_x (np.array): images of testing set
+      test_x (np.array): CSI images of testing set
       test_y (np.array): labels of testing set
       n_way (int): number of classes in a classification task
       n_support (int): number of labeled examples per class in the support set
@@ -327,13 +328,13 @@ testx = np.expand_dims(testx, axis=1)
 result_out_name = 'results/result_A1' + test_env +'_' + data_folder + '.pt'
   
 n_way = 4
-n_support = 3
+n_support = 5
 n_query = 3
 
 test_x = testx
 test_y = testy
 
-test_episode = 10
+test_episode = 1000
 print(data_folder + ': ' 'trained on '+ train_env + ', testing on ' + test_env)
 CF, acc = test(model, test_x, test_y, n_way, n_support, n_query, test_episode)
 # #%%
